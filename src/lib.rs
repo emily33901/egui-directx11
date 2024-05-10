@@ -213,6 +213,7 @@ impl Renderer {
             primitive,
         } in egui_ctx.tessellate(egui_output.shapes, egui_output.pixels_per_point)
         {
+            let clip_rect = clip_rect * scale_factor * zoom_factor;
             match primitive {
                 Primitive::Mesh(mesh) => {
                     if mesh.indices.is_empty() {
@@ -240,7 +241,7 @@ impl Renderer {
                             .collect(),
                         idx: mesh.indices,
                         tex: mesh.texture_id,
-                        clip_rect: clip_rect * scale_factor * zoom_factor,
+                        clip_rect: clip_rect, // * scale_factor * zoom_factor,
                     };
                     Self::draw_mesh(&self.device, device_context, &self.texture_pool, mesh_data)?;
                 }
